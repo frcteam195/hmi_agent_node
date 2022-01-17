@@ -14,6 +14,27 @@ ros::NodeHandle* node;
 ActionHelper* action_helper;
 
 
+std::map<int, uint8_t> button_clicks;
+
+uint8_t debounce(int index, uint8_t value)
+{
+
+    if( button_clicks.count(index) == 0)
+    {
+        button_clicks[index] = value;
+        return value;
+    }
+
+    if( button_clicks[index] != value )
+    {
+        button_clicks[index] = value;
+        return value;
+    }
+
+    return 0;
+}
+
+
 void joystick_status_callback( const rio_control_node::Joystick_Status& joytick_status )
 {
 
@@ -24,30 +45,31 @@ void joystick_status_callback( const rio_control_node::Joystick_Status& joytick_
 
     const rio_control_node::Joystick* current_joystick = &joytick_status.joysticks[0];
 
-    if( current_joystick->buttons[0] == 1 )
+    if( debounce(0, current_joystick->buttons[0]) == 1 )
     {
         std::cout << "Single Action\n";
-        action_helper->req_single_action("testingActions", "singleactionhere");
+        action_helper->req_single_action("TestAutonomous", "MoveForward");
     }
 
-    if( current_joystick->buttons[1] == 1 )
+    if( debounce(1, current_joystick->buttons[1]) == 1 )
     {
         std::cout << "Series Action\n";
         std::vector<std::string> actions = { "action1", "action2", "action3" };
         action_helper->req_series_action("testingActions", actions);
     }
 
-    if( current_joystick->buttons[2] == 1 )
+    if( debounce(2, current_joystick->buttons[2]) == 1 )
     {
         std::cout << "Series Action\n";
         std::vector<std::string> actions = { "action1", "action2", "action3" };
         action_helper->req_series_action("testingActions", actions);
     }
 
-    if( current_joystick->buttons[3] == 1 )
+    if( debounce(3, current_joystick->buttons[3]) == 1 )
     {
         std::cout << "CANCEL Action\n";
         action_helper->req_cancel_category("testingActions");
+        action_helper->req_cancel_category("TestAutonomous");
     }
 }
 
