@@ -13,7 +13,6 @@
 ros::NodeHandle* node;
 ActionHelper* action_helper;
 
-
 std::map<int, uint8_t> button_clicks;
 
 uint8_t debounce(int index, uint8_t value)
