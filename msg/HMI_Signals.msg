@@ -1,0 +1,7 @@
+float64 drivetrain_fwd_back
+float64 drivetrain_left_right
+bool drivetrain_quickturn
+bool drivetrain_brake
+float64 turret_aim_degrees
+float64 turret_speed_rpm
+float64 turret_hood_degrees
