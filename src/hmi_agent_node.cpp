@@ -6,7 +6,7 @@
 #include <mutex>
 #include <rio_control_node/Joystick_Status.h>
 
-#include <../../action_processor_node/include/helper/action_helper.hpp>
+#include <action_helper/action_helper.hpp>
 
 #define RATE (100)
 
