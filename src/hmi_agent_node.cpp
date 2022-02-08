@@ -114,7 +114,7 @@ void joystick_status_callback( const rio_control_node::Joystick_Status& joystick
     output_signals.turret_speed_rpm = turret_speed_rpm;
 
     static ros::Publisher signal_publisher = node->advertise<hmi_agent_node::HMI_Signals>("/HMI_Signals",10);
-
+    signal_publisher.publish(output_signals);
 }
 
 int main(int argc, char **argv)
@@ -129,12 +129,7 @@ int main(int argc, char **argv)
 
     action_helper = new ActionHelper(node);
 
-    while( ros::ok() )
-    {
-
-        ros::spinOnce();
-        rate.sleep();
-    }
+    ros::spin();
 
 	return 0;
 }
