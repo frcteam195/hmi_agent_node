@@ -70,11 +70,11 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
     {
         if (joystick_status.joysticks[1].axes[2] < -0.25) //aim left
         {
-            turret_aim_degrees -= 2;
+            turret_aim_degrees += 2;
         }
         if (joystick_status.joysticks[1].axes[2] > 0.25) //aim right
         {
-            turret_aim_degrees += 2;
+            turret_aim_degrees -= 2;
         }
         if (turret_aim_degrees > 180)
         {
