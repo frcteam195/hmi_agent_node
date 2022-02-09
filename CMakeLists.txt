@@ -10,7 +10,7 @@ project(${PROJECT_NAME})
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS roscpp std_msgs message_generation rio_control_node action_processor_node)
+find_package(catkin REQUIRED COMPONENTS roscpp std_msgs message_generation rio_control_node action_processor_node ck_utilities_node)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -116,7 +116,7 @@ catkin_package(
 #  LIBRARIES rio_control_node
 #  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
-  CATKIN_DEPENDS roscpp message_generation message_runtime rio_control_node action_processor_node
+  CATKIN_DEPENDS roscpp message_generation message_runtime rio_control_node action_processor_node ck_utilities_node
 )
 
 ###########
