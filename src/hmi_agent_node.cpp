@@ -41,62 +41,62 @@ void joystick_status_callback( const rio_control_node::Joystick_Status& joystick
     static double turret_speed_rpm = 0;
     hmi_agent_node::HMI_Signals output_signals;
     
-    if (joystick_status.joysticks[0].buttons[0])//near
+    if (joystick_status.joysticks[3].buttons[8])//near
     {
         turret_aim_degrees = 0;
         turret_hood_degrees = 0;
         turret_speed_rpm = 0;
     }
-    if (joystick_status.joysticks[0].buttons[0])//near mid
+    if (joystick_status.joysticks[3].buttons[9])//near mid
     {
         turret_aim_degrees = 0;
         turret_hood_degrees = 0;
         turret_speed_rpm = 0;
     }
-    if (joystick_status.joysticks[0].buttons[0])//mid
+    if (joystick_status.joysticks[3].buttons[10])//mid
     {
         turret_aim_degrees = 0;
         turret_hood_degrees = 0;
         turret_speed_rpm = 0;
     }
-    if (joystick_status.joysticks[0].buttons[0])//mid far
+    if (joystick_status.joysticks[3].buttons[11])//mid far
     {
         turret_aim_degrees = 0;
         turret_hood_degrees = 0;
         turret_speed_rpm = 0;
     }
-    if (joystick_status.joysticks[0].buttons[0])//far
+    if (joystick_status.joysticks[3].buttons[12])//far
     {
         turret_aim_degrees = 0;
         turret_hood_degrees = 0;
         turret_speed_rpm = 0;
     }
 
-    if (joystick_status.joysticks[0].buttons[0])//aim left
+    if (joystick_status.joysticks[1].axes[2] < -0.25)//aim left
     {
-        turret_aim_degrees -= 0;
+        turret_aim_degrees -= 0.2;
     }
-    if (joystick_status.joysticks[0].buttons[0])//aim right
+    if (joystick_status.joysticks[1].axes[2] > 0.25)//aim right
     {
-        turret_aim_degrees += 0;
+        turret_aim_degrees += 0.2;
     }
 
 
-    if (joystick_status.joysticks[0].buttons[0])//hood up
+    if (joystick_status.joysticks[1].buttons[5])//hood up
     {
        turret_hood_degrees -= 0; 
     }
-    if (joystick_status.joysticks[0].buttons[0])//hood down
+    if (joystick_status.joysticks[1].buttons[3])//hood down
     {
        turret_hood_degrees += 0;
     }
 
 
-    if (joystick_status.joysticks[0].buttons[0])//speed up
+    if (joystick_status.joysticks[1].buttons[4])//speed up
     {
         turret_speed_rpm -= 0;
     }
-    if (joystick_status.joysticks[0].buttons[0])//speed down
+    if (joystick_status.joysticks[1].buttons[2])//speed down
     {
         turret_speed_rpm += 0;
     }
@@ -105,10 +105,10 @@ void joystick_status_callback( const rio_control_node::Joystick_Status& joystick
 
 
 
-    output_signals.drivetrain_brake = joystick_status.joysticks[0].buttons[0];
-    output_signals.drivetrain_fwd_back = joystick_status.joysticks[0].axes[0];
-    output_signals.drivetrain_left_right = joystick_status.joysticks[0].axes[0];
-    output_signals.drivetrain_quickturn = joystick_status.joysticks[0].buttons[0];
+    output_signals.drivetrain_brake = joystick_status.joysticks[0].buttons[4];
+    output_signals.drivetrain_fwd_back = joystick_status.joysticks[0].axes[1];
+    output_signals.drivetrain_left_right = joystick_status.joysticks[0].axes[4];
+    output_signals.drivetrain_quickturn = joystick_status.joysticks[0].buttons[1];
     output_signals.turret_aim_degrees = turret_aim_degrees;
     output_signals.turret_hood_degrees = turret_hood_degrees;
     output_signals.turret_speed_rpm = turret_speed_rpm;
