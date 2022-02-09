@@ -7,12 +7,15 @@
 #include <rio_control_node/Joystick_Status.h>
 #include <hmi_agent_node/HMI_Signals.h>
 #include <action_helper/action_helper.hpp>
-
+#include <ck_utilities/Joystick.hpp>
 #define RATE (100)
 
 ros::NodeHandle *node;
 ActionHelper *action_helper;
-
+Joystick *drive_joystick;
+Joystick *arm_joystick;
+Joystick *button_box_1_joystick;
+Joystick *button_box_2_joystick;
 std::map<int, uint8_t> button_clicks;
 
 uint8_t debounce(int index, uint8_t value)
@@ -35,44 +38,45 @@ uint8_t debounce(int index, uint8_t value)
 
 void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_status)
 {
+    (void)joystick_status;
     static double turret_aim_degrees = 0;
     static double turret_hood_degrees = 0;
     static double turret_speed_rpm = 0;
     hmi_agent_node::HMI_Signals output_signals;
 
-    if (joystick_status.joysticks[3].buttons[8]) //near
+    if (button_box_2_joystick->getButton(8)) //near
     {
         turret_hood_degrees = 0;
         turret_speed_rpm = 1800;
     }
-    if (joystick_status.joysticks[3].buttons[9]) //near mid
+    if (button_box_2_joystick->getButton(9)) //near mid
     {
         turret_hood_degrees = -6;
         turret_speed_rpm = 2100;
     }
-    if (joystick_status.joysticks[3].buttons[10]) //mid
+    if (button_box_2_joystick->getButton(10)) //mid
     {
         turret_hood_degrees = -12;
         turret_speed_rpm = 2400;
     }
-    if (joystick_status.joysticks[3].buttons[11]) //mid far
+    if (button_box_2_joystick->getButton(11)) //mid far
     {
         turret_hood_degrees = -18;
         turret_speed_rpm = 2700;
     }
-    if (joystick_status.joysticks[3].buttons[12]) //far
+    if (button_box_2_joystick->getButton(12)) //far
     {
         turret_hood_degrees = -24;
         turret_speed_rpm = 3000;
     }
 
-    if (joystick_status.joysticks[1].buttons[1])
+    if (arm_joystick->getButton(1))
     {
-        if (joystick_status.joysticks[1].axes[2] < -0.25) //aim left
+        if (arm_joystick->getFilteredAxis(2,0.25)<0) //aim left
         {
             turret_aim_degrees += 2;
         }
-        if (joystick_status.joysticks[1].axes[2] > 0.25) //aim right
+        if (arm_joystick->getFilteredAxis(2,0.25)>0) //aim right
         {
             turret_aim_degrees -= 2;
         }
@@ -86,11 +90,11 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
         }
     }
 
-    if (joystick_status.joysticks[1].buttons[5]) //hood up
+    if (arm_joystick->getButton(5)) //hood up
     {
         turret_hood_degrees -= 0.2;
     }
-    if (joystick_status.joysticks[1].buttons[3]) //hood down
+    if (arm_joystick->getButton(3)) //hood down
     {
         turret_hood_degrees += 0.2;
     }
@@ -103,11 +107,11 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
         turret_hood_degrees = -25;
     }
 
-    if (joystick_status.joysticks[1].buttons[4]) //speed up
+    if (arm_joystick->getButton(4)) //speed up
     {
         turret_speed_rpm += 60;
     }
-    if (joystick_status.joysticks[1].buttons[2]) //speed down
+    if (arm_joystick->getButton(2)) //speed down
     {
         turret_speed_rpm -= 60;
     }
@@ -120,10 +124,10 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
         turret_speed_rpm = 0;
     }
 
-    output_signals.drivetrain_brake = joystick_status.joysticks[0].buttons[4];
-    output_signals.drivetrain_fwd_back = joystick_status.joysticks[0].axes[1];
-    output_signals.drivetrain_left_right = joystick_status.joysticks[0].axes[4];
-    output_signals.drivetrain_quickturn = joystick_status.joysticks[0].axes[2] > .35;
+    output_signals.drivetrain_brake = drive_joystick->getButton(4);
+    output_signals.drivetrain_fwd_back = drive_joystick->getFilteredAxis(1,0.05);
+    output_signals.drivetrain_left_right = drive_joystick->getFilteredAxis(4, 0.05);
+    output_signals.drivetrain_quickturn = drive_joystick->getAxisActuated(2, 0.35);
     output_signals.turret_aim_degrees = turret_aim_degrees;
     output_signals.turret_hood_degrees = turret_hood_degrees;
     output_signals.turret_speed_rpm = turret_speed_rpm;
@@ -140,7 +144,10 @@ int main(int argc, char **argv)
     node = &n;
 
     ros::Subscriber joystick_status_sub = node->subscribe("/JoystickStatus", 100, joystick_status_callback);
-
+    drive_joystick = new Joystick(0);
+    arm_joystick = new Joystick(1);
+    button_box_1_joystick = new Joystick(2);
+    button_box_2_joystick = new Joystick(3);
     action_helper = new ActionHelper(node);
 
     ros::spin();
