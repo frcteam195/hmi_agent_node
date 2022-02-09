@@ -43,62 +43,57 @@ void joystick_status_callback( const rio_control_node::Joystick_Status& joystick
     
     if (joystick_status.joysticks[3].buttons[8])//near
     {
-        turret_aim_degrees = 0;
         turret_hood_degrees = 0;
-        turret_speed_rpm = 0;
+        turret_speed_rpm = 1800;
     }
     if (joystick_status.joysticks[3].buttons[9])//near mid
     {
-        turret_aim_degrees = 0;
-        turret_hood_degrees = 0;
-        turret_speed_rpm = 0;
+        turret_hood_degrees = -6;
+        turret_speed_rpm = 2100;
     }
     if (joystick_status.joysticks[3].buttons[10])//mid
     {
-        turret_aim_degrees = 0;
-        turret_hood_degrees = 0;
-        turret_speed_rpm = 0;
+        turret_hood_degrees = -12;
+        turret_speed_rpm = 2400;
     }
     if (joystick_status.joysticks[3].buttons[11])//mid far
     {
-        turret_aim_degrees = 0;
-        turret_hood_degrees = 0;
-        turret_speed_rpm = 0;
+        turret_hood_degrees = -18;
+        turret_speed_rpm = 2700;
     }
     if (joystick_status.joysticks[3].buttons[12])//far
     {
-        turret_aim_degrees = 0;
-        turret_hood_degrees = 0;
-        turret_speed_rpm = 0;
+        turret_hood_degrees = -24;
+        turret_speed_rpm = 3000;
     }
 
     if (joystick_status.joysticks[1].axes[2] < -0.25)//aim left
     {
-        turret_aim_degrees -= 0.2;
+        turret_aim_degrees -= 2;
     }
     if (joystick_status.joysticks[1].axes[2] > 0.25)//aim right
     {
-        turret_aim_degrees += 0.2;
+        turret_aim_degrees += 2;
     }
 
 
     if (joystick_status.joysticks[1].buttons[5])//hood up
     {
-       turret_hood_degrees -= 0; 
+       turret_hood_degrees -= 0.2; 
     }
     if (joystick_status.joysticks[1].buttons[3])//hood down
     {
-       turret_hood_degrees += 0;
+       turret_hood_degrees += 0.2;
     }
 
 
     if (joystick_status.joysticks[1].buttons[4])//speed up
     {
-        turret_speed_rpm -= 0;
+        turret_speed_rpm += 60;
     }
     if (joystick_status.joysticks[1].buttons[2])//speed down
     {
-        turret_speed_rpm += 0;
+        turret_speed_rpm -= 60;
     }
 
 
