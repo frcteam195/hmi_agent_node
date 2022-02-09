@@ -39,7 +39,7 @@ uint8_t debounce(int index, uint8_t value)
 
 void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_status)
 {
-    (void)joystick_status;
+    Joystick::update(joystick_status);
     static double turret_aim_degrees = 0;
     static double turret_hood_degrees = 0;
     static double turret_speed_rpm = 0;
@@ -73,14 +73,15 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
 
     if (arm_joystick->getButton(1))
     {
-        if (arm_joystick->getFilteredAxis(2,0.25)<0) //aim left
+        if (arm_joystick->getFilteredAxis(2, 0.25) < 0) //aim left
         {
             turret_aim_degrees += 2;
         }
-        if (arm_joystick->getFilteredAxis(2,0.25)>0) //aim right
+        else if (arm_joystick->getFilteredAxis(2, 0.25) > 0) //aim right
         {
             turret_aim_degrees -= 2;
         }
+        
         if (turret_aim_degrees > 180)
         {
             turret_aim_degrees = 180;
@@ -127,11 +128,12 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
 
     if (arm_joystick->getRisingEdgeButton(0))
     {
+        ROS_INFO("Shoot action!");
         action_helper->req_single_action("Turret", turret_actions[TurretActions::SHOOT_TURRET]);
     }
 
     output_signals.drivetrain_brake = drive_joystick->getButton(4);
-    output_signals.drivetrain_fwd_back = drive_joystick->getFilteredAxis(1,0.05);
+    output_signals.drivetrain_fwd_back = drive_joystick->getFilteredAxis(1, 0.05);
     output_signals.drivetrain_left_right = drive_joystick->getFilteredAxis(4, 0.05);
     output_signals.drivetrain_quickturn = drive_joystick->getAxisActuated(2, 0.35);
     output_signals.turret_aim_degrees = turret_aim_degrees;
