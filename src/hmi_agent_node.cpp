@@ -1,3 +1,4 @@
+#include "hmi_agent_node.hpp"
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 
@@ -122,6 +123,11 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
     if (turret_speed_rpm < 0)
     {
         turret_speed_rpm = 0;
+    }
+
+    if (arm_joystick->getRisingEdgeButton(0))
+    {
+        action_helper->req_single_action("Turret", turret_actions[TurretActions::SHOOT_TURRET]);
     }
 
     output_signals.drivetrain_brake = drive_joystick->getButton(4);
