@@ -12,7 +12,7 @@
 #define RATE (100)
 
 ros::NodeHandle *node;
-ActionHelper *action_helper;
+//ActionHelper *action_helper;
 Joystick *drive_joystick;
 Joystick *arm_joystick;
 Joystick *button_box_1_joystick;
@@ -142,7 +142,6 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
 
     static ros::Publisher signal_publisher = node->advertise<hmi_agent_node::HMI_Signals>("/HMISignals", 10);
     signal_publisher.publish(output_signals);
-    
 }
 
 int main(int argc, char **argv)
@@ -157,7 +156,7 @@ int main(int argc, char **argv)
     arm_joystick = new Joystick(1);
     button_box_1_joystick = new Joystick(2);
     button_box_2_joystick = new Joystick(3);
-    action_helper = new ActionHelper(node);
+    //action_helper = new ActionHelper(node);
 
     ros::spin();
 
