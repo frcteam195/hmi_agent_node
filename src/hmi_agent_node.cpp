@@ -126,11 +126,8 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
         turret_speed_rpm = 0;
     }
 
-    if (arm_joystick->getRisingEdgeButton(0))
-    {
-        ROS_INFO("Shoot action!");
-        action_helper->req_single_action("Turret", turret_actions[TurretActions::SHOOT_TURRET]);
-    }
+   
+    
 
     output_signals.drivetrain_brake = drive_joystick->getButton(4);
     output_signals.drivetrain_fwd_back = drive_joystick->getFilteredAxis(1, 0.05);
@@ -139,9 +136,13 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
     output_signals.turret_aim_degrees = turret_aim_degrees;
     output_signals.turret_hood_degrees = turret_hood_degrees;
     output_signals.turret_speed_rpm = turret_speed_rpm;
+    output_signals.shoot_turret = arm_joystick->getButton(0);
+
+
 
     static ros::Publisher signal_publisher = node->advertise<hmi_agent_node::HMI_Signals>("/HMISignals", 10);
     signal_publisher.publish(output_signals);
+    
 }
 
 int main(int argc, char **argv)
