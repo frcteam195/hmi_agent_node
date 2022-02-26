@@ -6,3 +6,7 @@ float64 turret_aim_degrees
 float64 turret_speed_rpm
 float64 turret_hood_degrees
 bool shoot_turret
+bool intake_rollers
+bool retract_intake
+bool manual_intake
+bool manual_outake
