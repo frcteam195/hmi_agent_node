@@ -10,3 +10,7 @@ bool intake_rollers
 bool retract_intake
 bool manual_intake
 bool manual_outake
+bool stop_climber
+bool deploy_hooks
+bool begin_climb
+bool retract_hooks
