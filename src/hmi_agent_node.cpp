@@ -137,8 +137,14 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
     output_signals.turret_hood_degrees = turret_hood_degrees;
     output_signals.turret_speed_rpm = turret_speed_rpm;
     output_signals.shoot_turret = arm_joystick->getButton(0);
-
-
+    output_signals.intake_rollers = button_box_2_joystick->getButton(3);
+    output_signals.retract_intake = button_box_2_joystick->getButton(4);
+    output_signals.manual_intake = button_box_2_joystick->getButton(5);
+    output_signals.manual_outake = button_box_2_joystick->getButton(6);
+    output_signals.stop_climber = button_box_2_joystick->getButton(7);
+    output_signals.deploy_hooks = button_box_1_joystick->getButton(6);
+    output_signals.begin_climb = button_box_1_joystick->getButton(5);
+    output_signals.retract_hooks = button_box_1_joystick->getButton(12);
 
     static ros::Publisher signal_publisher = node->advertise<hmi_agent_node::HMI_Signals>("/HMISignals", 10);
     signal_publisher.publish(output_signals);
