@@ -130,7 +130,7 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
     
 
     output_signals.drivetrain_brake = drive_joystick->getButton(4);
-    output_signals.drivetrain_fwd_back = drive_joystick->getFilteredAxis(1, 0.05);
+    output_signals.drivetrain_fwd_back = -drive_joystick->getFilteredAxis(1, 0.05);
     output_signals.drivetrain_left_right = drive_joystick->getFilteredAxis(4, 0.05);
     output_signals.drivetrain_quickturn = drive_joystick->getAxisActuated(2, 0.35);
     output_signals.turret_aim_degrees = turret_aim_degrees;
