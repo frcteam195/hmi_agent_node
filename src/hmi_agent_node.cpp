@@ -71,7 +71,16 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
         turret_speed_rpm = 3000;
     }
 
-    if (arm_joystick->getButton(1))
+
+    output_signals.turret_manual = arm_joystick->getButton(1);
+    static constexpr double MAX_TURRET_DEG = 180;
+    static constexpr double MIN_TURRET_DEG = -180;
+    static constexpr double MAX_HOOD_DEG = 25;
+    static constexpr double MIN_HOOD_DEG = 0;
+    static constexpr double MAX_SHOOTER_RPM = 5000;
+    static constexpr double MIN_SHOOTER_RPM = 0;
+
+    if (output_signals.turret_manual)
     {
         if (arm_joystick->getFilteredAxis(2, 0.25) < 0) //aim left
         {
@@ -82,15 +91,9 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
             turret_aim_degrees -= 2;
         }
         
-        if (turret_aim_degrees > 180)
-        {
-            turret_aim_degrees = 180;
-        }
-        if (turret_aim_degrees < -180)
-        {
-            turret_aim_degrees = -180;
-        }
+        turret_aim_degrees = std::min(std::max(turret_aim_degrees, MIN_TURRET_DEG), MAX_TURRET_DEG);
     }
+
 
     if (arm_joystick->getButton(5)) //hood up
     {
@@ -100,14 +103,8 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
     {
         turret_hood_degrees += 0.2;
     }
-    if (turret_hood_degrees > 0)
-    {
-        turret_hood_degrees = 0;
-    }
-    if (turret_hood_degrees < -25)
-    {
-        turret_hood_degrees = -25;
-    }
+    turret_hood_degrees = std::min(std::max(turret_hood_degrees, MIN_HOOD_DEG), MAX_HOOD_DEG);
+
 
     if (arm_joystick->getButton(4)) //speed up
     {
@@ -117,14 +114,7 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
     {
         turret_speed_rpm -= 60;
     }
-    if (turret_speed_rpm > 5000)
-    {
-        turret_speed_rpm = 5000;
-    }
-    if (turret_speed_rpm < 0)
-    {
-        turret_speed_rpm = 0;
-    }
+    turret_speed_rpm = std::min(std::max(turret_speed_rpm, MIN_SHOOTER_RPM), MAX_SHOOTER_RPM);
 
    
     
