@@ -15,3 +15,4 @@ bool stop_climber
 bool deploy_hooks
 bool begin_climb
 bool retract_hooks
+bool forced_reset_retract_hooks

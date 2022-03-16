@@ -135,6 +135,7 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
     output_signals.deploy_hooks = button_box_1_joystick->getButton(6);
     output_signals.begin_climb = button_box_1_joystick->getButton(5);
     output_signals.retract_hooks = button_box_1_joystick->getButton(12);
+    output_signals.forced_reset_retract_hooks = false;  //DO NOT SET THIS SIGNAL HERE TO ANYTHING OTHER THAN FALSE
 
     static ros::Publisher signal_publisher = node->advertise<hmi_agent_node::HMI_Signals>("/HMISignals", 10);
     signal_publisher.publish(output_signals);
