@@ -17,3 +17,4 @@ bool begin_climb
 bool retract_hooks
 bool forced_reset_retract_hooks
 bool allow_shoot
+bool flip_intakes
