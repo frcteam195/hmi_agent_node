@@ -6,10 +6,12 @@
 #include <string>
 #include <mutex>
 #include <rio_control_node/Joystick_Status.h>
+#include <rio_control_node/Robot_Status.h>
 #include <hmi_agent_node/HMI_Signals.h>
 #include <action_helper/action_helper.hpp>
 #include <ck_utilities/Joystick.hpp>
 #include "ck_utilities/CKMath.hpp"
+#include <atomic>
 #define RATE (100)
 
 ros::NodeHandle *node;
@@ -19,6 +21,15 @@ Joystick *arm_joystick;
 Joystick *button_box_1_joystick;
 Joystick *button_box_2_joystick;
 std::map<int, uint8_t> button_clicks;
+
+enum RobotState : int
+{
+    DISABLED = 0,
+    TELEOP = 1,
+    AUTONOMOUS = 2,
+    TEST = 3,
+};
+std::atomic<RobotState> robot_state {DISABLED};
 
 uint8_t debounce(int index, uint8_t value)
 {
@@ -140,7 +151,16 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
     output_signals.forced_reset_retract_hooks = false;  //DO NOT SET THIS SIGNAL HERE TO ANYTHING OTHER THAN FALSE
 
     static ros::Publisher signal_publisher = node->advertise<hmi_agent_node::HMI_Signals>("/HMISignals", 10);
-    signal_publisher.publish(output_signals);
+
+    if (robot_state != RobotState::AUTONOMOUS)
+    {
+        signal_publisher.publish(output_signals);
+    }
+}
+
+void robot_status_callback(const rio_control_node::Robot_Status &robot_status)
+{
+    robot_state = (RobotState)robot_status.robot_state;
 }
 
 int main(int argc, char **argv)
@@ -151,6 +171,7 @@ int main(int argc, char **argv)
     node = &n;
 
     ros::Subscriber joystick_status_sub = node->subscribe("/JoystickStatus", 100, joystick_status_callback);
+    ros::Subscriber robot_status_sub = node->subscribe("/RobotStatus", 1, robot_status_callback);
     drive_joystick = new Joystick(0);
     arm_joystick = new Joystick(1);
     button_box_1_joystick = new Joystick(2);
