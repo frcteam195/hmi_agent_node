@@ -132,7 +132,7 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
     
     output_signals.flip_intakes = drive_joystick->getButton(0);
     output_signals.drivetrain_brake = drive_joystick->getButton(4);
-    output_signals.drivetrain_fwd_back = -drive_joystick->getFilteredAxis(1, 0.12) * 0.7;
+    output_signals.drivetrain_fwd_back = -drive_joystick->getFilteredAxis(1, 0.12) * 0.6;
     double turn = drive_joystick->getFilteredAxis(4, 0.12);
     output_signals.drivetrain_left_right = ck::math::signum(turn) * std::pow(turn, 2);
     if (drive_joystick->getAxisActuated(3, 0.35))
