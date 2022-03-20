@@ -108,7 +108,7 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
 
 
         //fix
-        turret_aim_degrees = arm_joystick->getFilteredAxis(2, 0.25) / 2.0;
+        turret_aim_degrees = arm_joystick->getFilteredAxis(2, 0.25) / 4.0;
     }
 
 
