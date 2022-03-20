@@ -104,6 +104,11 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
         }
         
         turret_aim_degrees = std::min(std::max(turret_aim_degrees, MIN_TURRET_DEG), MAX_TURRET_DEG);
+
+
+
+        //fix
+        turret_aim_degrees = arm_joystick->getFilteredAxis(2, 0.25) / 2.0;
     }
 
 
