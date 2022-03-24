@@ -84,7 +84,7 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
     }
 
 
-    output_signals.turret_manual = arm_joystick->getButton(1);
+    output_signals.turret_manual = arm_joystick->getButton(5);
     static constexpr double MAX_TURRET_DEG = 180;
     static constexpr double MIN_TURRET_DEG = -180;
     static constexpr double MAX_HOOD_DEG = 25;
@@ -112,22 +112,22 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
     }
 
 
-    if (arm_joystick->getButton(5)) //hood up
+    if (arm_joystick->getButton(8)) //hood up
     {
         turret_hood_degrees -= 0.2;
     }
-    if (arm_joystick->getButton(3)) //hood down
+    if (arm_joystick->getButton(9)) //hood down
     {
         turret_hood_degrees += 0.2;
     }
     turret_hood_degrees = std::min(std::max(turret_hood_degrees, MIN_HOOD_DEG), MAX_HOOD_DEG);
 
 
-    if (arm_joystick->getButton(4)) //speed up
+    if (arm_joystick->getButton(10)) //speed up
     {
         turret_speed_rpm += 60;
     }
-    if (arm_joystick->getButton(2)) //speed down
+    if (arm_joystick->getButton(11)) //speed down
     {
         turret_speed_rpm -= 60;
     }
@@ -136,23 +136,24 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
    
     
     output_signals.flip_intakes = drive_joystick->getButton(0);
-    output_signals.drivetrain_brake = drive_joystick->getButton(4);
+    output_signals.drivetrain_brake = drive_joystick->getButton(5);
     output_signals.drivetrain_fwd_back = -drive_joystick->getFilteredAxis(1, 0.12);
-    double turn = drive_joystick->getFilteredAxis(4, 0.12);
+    double turn = drive_joystick->getFilteredAxis(0, 0.12);
     output_signals.drivetrain_left_right = ck::math::signum(turn) * std::pow(turn, 2);
     if (drive_joystick->getAxisActuated(3, 0.35))
     {
         output_signals.drivetrain_left_right *= 0.4;
         output_signals.drivetrain_fwd_back *= 0.4;
     }
-    output_signals.drivetrain_quickturn = drive_joystick->getAxisActuated(2, 0.35);
+    // output_signals.drivetrain_quickturn = drive_joystick->getAxisActuated(2, 0.35);
+    output_signals.drivetrain_quickturn = drive_joystick->getButton(6);
     output_signals.turret_aim_degrees = turret_aim_degrees;
     output_signals.turret_hood_degrees = turret_hood_degrees;
     output_signals.turret_speed_rpm = turret_speed_rpm;
-    output_signals.intake_rollers = button_box_2_joystick->getButton(2) || drive_joystick->getButton(5);
-    output_signals.retract_intake = button_box_2_joystick->getButton(3);
-    output_signals.manual_intake = button_box_2_joystick->getButton(4);
-    output_signals.manual_outake = button_box_2_joystick->getButton(5);
+    output_signals.intake_rollers = button_box_2_joystick->getButton(2) || drive_joystick->getButton(5) || arm_joystick->getButton(0);
+    output_signals.retract_intake = button_box_2_joystick->getButton(3) || output_signals.intake_rollers;
+    output_signals.manual_intake = button_box_2_joystick->getButton(4) || arm_joystick->getButton(6);
+    output_signals.manual_outake = button_box_2_joystick->getButton(5) || arm_joystick->getButton(2);
     output_signals.stop_climber = button_box_2_joystick->getButton(7);
     output_signals.allow_shoot = button_box_1_joystick->getButton(0) || drive_joystick->getButton(3);
     output_signals.deploy_hooks = button_box_1_joystick->getButton(5);
