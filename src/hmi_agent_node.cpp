@@ -134,9 +134,6 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
     }
     turret_speed_rpm = std::min(std::max(turret_speed_rpm, MIN_SHOOTER_RPM), MAX_SHOOTER_RPM);
 
-   
-    
-    output_signals.flip_intakes = drive_joystick->getButton(drive_flip_intakes_button_id);
     output_signals.drivetrain_brake = drive_joystick->getButton(drive_brake_button_id);
     output_signals.drivetrain_fwd_back = -drive_joystick->getFilteredAxis(drive_fwd_back_axis_id, drive_axis_deadband);
     double turn = drive_joystick->getFilteredAxis(drive_turn_axis_id, drive_axis_deadband);
@@ -188,7 +185,6 @@ int main(int argc, char **argv)
 	required_params_found &= n.getParam(CKSP(drive_fwd_back_axis_id), drive_fwd_back_axis_id);
 	required_params_found &= n.getParam(CKSP(drive_turn_axis_id), drive_turn_axis_id);
 	required_params_found &= n.getParam(CKSP(drive_axis_deadband), drive_axis_deadband);
-	required_params_found &= n.getParam(CKSP(drive_flip_intakes_button_id), drive_flip_intakes_button_id);
 	required_params_found &= n.getParam(CKSP(drive_brake_button_id), drive_brake_button_id);
 	required_params_found &= n.getParam(CKSP(drive_quickturn_button_id), drive_quickturn_button_id);
 	required_params_found &= n.getParam(CKSP(drive_intake_rollers_button_id), drive_intake_rollers_button_id);

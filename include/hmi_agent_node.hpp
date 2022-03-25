@@ -5,7 +5,6 @@
 int drive_fwd_back_axis_id;
 int drive_turn_axis_id;
 double drive_axis_deadband;
-int drive_flip_intakes_button_id;
 int drive_brake_button_id;
 int drive_quickturn_button_id;
 int drive_intake_rollers_button_id;
