@@ -136,7 +136,7 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
    
     
     output_signals.flip_intakes = drive_joystick->getButton(0);
-    output_signals.drivetrain_brake = drive_joystick->getButton(2);
+    output_signals.drivetrain_brake = drive_joystick->getButton(5);
     output_signals.drivetrain_fwd_back = -drive_joystick->getFilteredAxis(1, 0.12);
     double turn = drive_joystick->getFilteredAxis(0, 0.12);
     output_signals.drivetrain_left_right = ck::math::signum(turn) * std::pow(turn, 2);
@@ -146,16 +146,16 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
         output_signals.drivetrain_fwd_back *= 0.4;
     }
     // output_signals.drivetrain_quickturn = drive_joystick->getAxisActuated(2, 0.35);
-    output_signals.drivetrain_quickturn = drive_joystick->getButton(3);
+    output_signals.drivetrain_quickturn = drive_joystick->getButton(6);
     output_signals.turret_aim_degrees = turret_aim_degrees;
     output_signals.turret_hood_degrees = turret_hood_degrees;
     output_signals.turret_speed_rpm = turret_speed_rpm;
-    output_signals.intake_rollers = button_box_2_joystick->getButton(2) || drive_joystick->getButton(5) || arm_joystick->getButton(0);
+    output_signals.intake_rollers = button_box_2_joystick->getButton(2) || drive_joystick->getButton(8) || arm_joystick->getButton(0);
     output_signals.retract_intake = button_box_2_joystick->getButton(3) || output_signals.intake_rollers;
     output_signals.manual_intake = button_box_2_joystick->getButton(4) || arm_joystick->getButton(6);
     output_signals.manual_outake = button_box_2_joystick->getButton(5) || arm_joystick->getButton(2);
     output_signals.stop_climber = button_box_2_joystick->getButton(7);
-    output_signals.allow_shoot = button_box_1_joystick->getButton(0) || drive_joystick->getButton(1);
+    output_signals.allow_shoot = button_box_1_joystick->getButton(0) || drive_joystick->getButton(7);
     output_signals.deploy_hooks = button_box_1_joystick->getButton(5);
     output_signals.begin_climb = button_box_1_joystick->getButton(4);
     output_signals.retract_hooks = button_box_1_joystick->getButton(11);
