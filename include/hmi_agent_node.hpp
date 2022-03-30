@@ -3,7 +3,9 @@
 
 //Drive
 int drive_fwd_back_axis_id;
+bool drive_fwd_back_axis_inverted;
 int drive_turn_axis_id;
+bool drive_turn_axis_inverted;
 double drive_axis_deadband;
 int drive_brake_button_id;
 int drive_quickturn_button_id;
@@ -12,6 +14,7 @@ int drive_allow_shoot_button_id;
 
 //Arm
 int arm_twist_axis_id;
+bool arm_twist_axis_inverted;
 double arm_axis_deadband;
 int arm_turret_manual_button_id;
 int arm_hood_up_button_id;

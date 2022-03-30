@@ -93,13 +93,15 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
     static constexpr double MAX_SHOOTER_RPM = 5000;
     static constexpr double MIN_SHOOTER_RPM = 0;
 
+    int invert_arm_twist_axis = arm_twist_axis_inverted ? -1 : 1;
+
     if (output_signals.turret_manual)
     {
-        if (arm_joystick->getFilteredAxis(arm_twist_axis_id, arm_axis_deadband) < 0) //aim left
+        if (invert_arm_twist_axis * arm_joystick->getFilteredAxis(arm_twist_axis_id, arm_axis_deadband) < 0) //aim left
         {
             turret_aim_degrees += 2;
         }
-        else if (arm_joystick->getFilteredAxis(arm_twist_axis_id, arm_axis_deadband) > 0) //aim right
+        else if (invert_arm_twist_axis * arm_joystick->getFilteredAxis(arm_twist_axis_id, arm_axis_deadband) > 0) //aim right
         {
             turret_aim_degrees -= 2;
         }
@@ -109,7 +111,7 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
 
 
         //fix
-        turret_aim_degrees = -arm_joystick->getFilteredAxis(arm_twist_axis_id, arm_axis_deadband) / 4.0;
+        turret_aim_degrees = invert_arm_twist_axis * arm_joystick->getFilteredAxis(arm_twist_axis_id, arm_axis_deadband) / 4.0;
     }
 
 
@@ -135,8 +137,10 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
     turret_speed_rpm = std::min(std::max(turret_speed_rpm, MIN_SHOOTER_RPM), MAX_SHOOTER_RPM);
 
     output_signals.drivetrain_brake = drive_joystick->getButton(drive_brake_button_id);
-    output_signals.drivetrain_fwd_back = -drive_joystick->getFilteredAxis(drive_fwd_back_axis_id, drive_axis_deadband);
-    double turn = drive_joystick->getFilteredAxis(drive_turn_axis_id, drive_axis_deadband);
+    int invert_axis_fwd_back = drive_fwd_back_axis_inverted ? -1 : 1;
+    int invert_axis_turn = drive_turn_axis_inverted ? -1 : 1;
+    output_signals.drivetrain_fwd_back = invert_axis_fwd_back * drive_joystick->getFilteredAxis(drive_fwd_back_axis_id, drive_axis_deadband);
+    double turn = invert_axis_turn * drive_joystick->getFilteredAxis(drive_turn_axis_id, drive_axis_deadband);
     output_signals.drivetrain_left_right = ck::math::signum(turn) * std::pow(turn, 2);
     // if (drive_joystick->getAxisActuated(3, 0.35))
     // {
@@ -183,7 +187,9 @@ int main(int argc, char **argv)
 
     //Drive
 	required_params_found &= n.getParam(CKSP(drive_fwd_back_axis_id), drive_fwd_back_axis_id);
+	required_params_found &= n.getParam(CKSP(drive_fwd_back_axis_inverted), drive_fwd_back_axis_inverted);
 	required_params_found &= n.getParam(CKSP(drive_turn_axis_id), drive_turn_axis_id);
+	required_params_found &= n.getParam(CKSP(drive_turn_axis_inverted), drive_turn_axis_inverted);
 	required_params_found &= n.getParam(CKSP(drive_axis_deadband), drive_axis_deadband);
 	required_params_found &= n.getParam(CKSP(drive_brake_button_id), drive_brake_button_id);
 	required_params_found &= n.getParam(CKSP(drive_quickturn_button_id), drive_quickturn_button_id);
@@ -192,6 +198,7 @@ int main(int argc, char **argv)
 
     //Arm
     required_params_found &= n.getParam(CKSP(arm_twist_axis_id), arm_twist_axis_id);
+    required_params_found &= n.getParam(CKSP(arm_twist_axis_inverted), arm_twist_axis_inverted);
     required_params_found &= n.getParam(CKSP(arm_axis_deadband), arm_axis_deadband);
     required_params_found &= n.getParam(CKSP(arm_turret_manual_button_id), arm_turret_manual_button_id);
     required_params_found &= n.getParam(CKSP(arm_hood_up_button_id), arm_hood_up_button_id);
