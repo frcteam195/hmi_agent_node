@@ -10,7 +10,8 @@ bool shoot_turret
 bool intake_rollers
 bool retract_intake
 bool manual_intake
-bool manual_outake
+bool manual_outake_back
+bool manual_outake_front
 bool stop_climber
 bool deploy_hooks
 bool begin_climb

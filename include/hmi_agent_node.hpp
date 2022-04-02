@@ -23,7 +23,7 @@ int arm_rpm_up_button_id;
 int arm_rpm_down_button_id;
 int arm_intake_rollers_button_id;
 int arm_manual_intake_button_id;
-int arm_manual_outtake_button_id;
+int arm_manual_outtake_back_button_id;
 
 //ButtonBox1
 int bb1_allow_shoot_button_id;
@@ -40,5 +40,6 @@ int bb2_set_far_button_id;
 int bb2_intake_rollers_button_id;
 int bb2_retract_intakes_button_id;
 int bb2_manual_intake_button_id;
-int bb2_manual_outtake_button_id;
+int bb2_manual_outtake_back_button_id;
+int bb2_manual_outtake_front_button_id;
 int bb2_stop_climber_button_id;
