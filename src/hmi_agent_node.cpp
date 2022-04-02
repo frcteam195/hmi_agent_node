@@ -153,10 +153,10 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
     output_signals.turret_hood_degrees = turret_hood_degrees;
     output_signals.turret_speed_rpm = turret_speed_rpm;
     output_signals.intake_rollers = button_box_2_joystick->getButton(bb2_intake_rollers_button_id) || drive_joystick->getButton(drive_intake_rollers_button_id) || arm_joystick->getButton(arm_intake_rollers_button_id);
-    output_signals.retract_intake = button_box_2_joystick->getButton(bb2_retract_intakes_button_id) || output_signals.intake_rollers;
+    output_signals.retract_intake = button_box_2_joystick->getButton(bb2_retract_intakes_button_id) || output_signals.intake_rollers || arm_joystick->getButton(arm_retract_intake_button_id);
     output_signals.manual_intake = button_box_2_joystick->getButton(bb2_manual_intake_button_id) || arm_joystick->getButton(arm_manual_intake_button_id);
-    output_signals.manual_outake_back = button_box_2_joystick->getButton(bb2_manual_outtake_back_button_id) || arm_joystick->getButton(arm_manual_outtake_back_button_id);
-    output_signals.manual_outake_front = button_box_2_joystick->getButton(bb2_manual_outtake_front_button_id);
+    output_signals.manual_outake_back = button_box_2_joystick->getButton(bb2_manual_outtake_back_button_id) || (arm_joystick->getPOV(arm_pov_id) == arm_manual_outtake_back_pov_angle);
+    output_signals.manual_outake_front = button_box_2_joystick->getButton(bb2_manual_outtake_front_button_id) || (arm_joystick->getPOV(arm_pov_id) == arm_manual_outtake_front_pov_angle);
     output_signals.stop_climber = button_box_2_joystick->getButton(bb2_stop_climber_button_id);
     output_signals.allow_shoot = button_box_1_joystick->getButton(bb1_allow_shoot_button_id) || drive_joystick->getButton(drive_allow_shoot_button_id);
     output_signals.deploy_hooks = button_box_1_joystick->getButton(bb1_deploy_hooks_button_id);
@@ -208,7 +208,9 @@ int main(int argc, char **argv)
     required_params_found &= n.getParam(CKSP(arm_rpm_down_button_id), arm_rpm_down_button_id);
     required_params_found &= n.getParam(CKSP(arm_intake_rollers_button_id), arm_intake_rollers_button_id);
     required_params_found &= n.getParam(CKSP(arm_manual_intake_button_id), arm_manual_intake_button_id);
-    required_params_found &= n.getParam(CKSP(arm_manual_outtake_back_button_id), arm_manual_outtake_back_button_id);
+    required_params_found &= n.getParam(CKSP(arm_manual_outtake_front_pov_angle), arm_manual_outtake_front_pov_angle);
+    required_params_found &= n.getParam(CKSP(arm_manual_outtake_back_pov_angle), arm_manual_outtake_back_pov_angle);
+    required_params_found &= n.getParam(CKSP(arm_retract_intake_button_id), arm_retract_intake_button_id);
 
     //ButtonBox1
     required_params_found &= n.getParam(CKSP(bb1_allow_shoot_button_id), bb1_allow_shoot_button_id);

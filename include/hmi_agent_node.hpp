@@ -16,6 +16,9 @@ int drive_allow_shoot_button_id;
 int arm_twist_axis_id;
 bool arm_twist_axis_inverted;
 double arm_axis_deadband;
+int arm_pov_id;
+int arm_manual_outtake_back_pov_angle;
+int arm_manual_outtake_front_pov_angle;
 int arm_turret_manual_button_id;
 int arm_hood_up_button_id;
 int arm_hood_down_button_id;
@@ -23,7 +26,7 @@ int arm_rpm_up_button_id;
 int arm_rpm_down_button_id;
 int arm_intake_rollers_button_id;
 int arm_manual_intake_button_id;
-int arm_manual_outtake_back_button_id;
+int arm_retract_intake_button_id;
 
 //ButtonBox1
 int bb1_allow_shoot_button_id;
