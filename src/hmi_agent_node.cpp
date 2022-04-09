@@ -158,7 +158,9 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
     output_signals.manual_outake_back = button_box_2_joystick->getButton(bb2_manual_outtake_back_button_id) || (arm_joystick->getPOV(arm_pov_id) == arm_manual_outtake_back_pov_angle) || arm_joystick->getButton(arm_manual_outtake_back_button_id);
     output_signals.manual_outake_front = button_box_2_joystick->getButton(bb2_manual_outtake_front_button_id) || (arm_joystick->getPOV(arm_pov_id) == arm_manual_outtake_front_pov_angle) || arm_joystick->getButton(arm_manual_outtake_front_button_id);
     output_signals.stop_climber = button_box_2_joystick->getButton(bb2_stop_climber_button_id);
-    output_signals.allow_shoot = button_box_1_joystick->getButton(bb1_allow_shoot_button_id) || drive_joystick->getButton(drive_allow_shoot_button_id);
+    output_signals.allow_shoot = /*button_box_1_joystick->getButton(bb1_allow_shoot_button_id) ||*/ drive_joystick->getButton(drive_allow_shoot_button_id);
+    output_signals.increase_offset = button_box_1_joystick->getButton(bb1_increase_rpm_offset_button_id);
+    output_signals.decrease_offset = button_box_1_joystick->getButton(bb1_decrease_rpm_offset_button_id);
     output_signals.deploy_hooks = button_box_1_joystick->getButton(bb1_deploy_hooks_button_id);
     output_signals.begin_climb = button_box_1_joystick->getButton(bb1_begin_climb_button_id);
     output_signals.retract_hooks = button_box_1_joystick->getButton(bb1_retract_hooks_button_id);
@@ -219,6 +221,8 @@ int main(int argc, char **argv)
     required_params_found &= n.getParam(CKSP(bb1_deploy_hooks_button_id), bb1_deploy_hooks_button_id);
     required_params_found &= n.getParam(CKSP(bb1_begin_climb_button_id), bb1_begin_climb_button_id);
     required_params_found &= n.getParam(CKSP(bb1_retract_hooks_button_id), bb1_retract_hooks_button_id);
+    required_params_found &= n.getParam(CKSP(bb1_increase_rpm_offset_button_id), bb1_increase_rpm_offset_button_id);
+    required_params_found &= n.getParam(CKSP(bb1_decrease_rpm_offset_button_id), bb1_decrease_rpm_offset_button_id);
 
     //ButtonBox2
     required_params_found &= n.getParam(CKSP(bb2_set_near_button_id), bb2_set_near_button_id);

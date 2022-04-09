@@ -35,6 +35,8 @@ int bb1_allow_shoot_button_id;
 int bb1_deploy_hooks_button_id;
 int bb1_begin_climb_button_id;
 int bb1_retract_hooks_button_id;
+int bb1_increase_rpm_offset_button_id;
+int bb1_decrease_rpm_offset_button_id;
 
 //ButtonBox2
 int bb2_set_near_button_id;
