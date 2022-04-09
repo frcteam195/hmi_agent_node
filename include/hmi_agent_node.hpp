@@ -37,6 +37,7 @@ int bb1_begin_climb_button_id;
 int bb1_retract_hooks_button_id;
 int bb1_increase_rpm_offset_button_id;
 int bb1_decrease_rpm_offset_button_id;
+int bb1_stop_climber_button_id;
 
 //ButtonBox2
 int bb2_set_near_button_id;
@@ -49,4 +50,3 @@ int bb2_retract_intakes_button_id;
 int bb2_manual_intake_button_id;
 int bb2_manual_outtake_back_button_id;
 int bb2_manual_outtake_front_button_id;
-int bb2_stop_climber_button_id;
