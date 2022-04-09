@@ -217,7 +217,7 @@ int main(int argc, char **argv)
     required_params_found &= n.getParam(CKSP(arm_manual_outtake_back_button_id), arm_manual_outtake_back_button_id);
 
     //ButtonBox1
-    required_params_found &= n.getParam(CKSP(bb1_allow_shoot_button_id), bb1_allow_shoot_button_id);
+    //required_params_found &= n.getParam(CKSP(bb1_allow_shoot_button_id), bb1_allow_shoot_button_id);
     required_params_found &= n.getParam(CKSP(bb1_deploy_hooks_button_id), bb1_deploy_hooks_button_id);
     required_params_found &= n.getParam(CKSP(bb1_begin_climb_button_id), bb1_begin_climb_button_id);
     required_params_found &= n.getParam(CKSP(bb1_retract_hooks_button_id), bb1_retract_hooks_button_id);
