@@ -22,3 +22,4 @@ bool increase_offset
 bool decrease_offset
 bool angle_increase_offset
 bool angle_decrease_offset
+bool climber_retry_last_stage

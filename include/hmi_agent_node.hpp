@@ -40,6 +40,7 @@ int bb1_decrease_rpm_offset_button_id;
 int bb1_stop_climber_button_id;
 int bb1_increase_angle_button_id;
 int bb1_decrease_angle_button_id;
+int bb1_retry_last_stage_climber_button_id;
 
 //ButtonBox2
 int bb2_set_near_button_id;
