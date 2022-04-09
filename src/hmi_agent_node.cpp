@@ -165,6 +165,8 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
     output_signals.begin_climb = button_box_1_joystick->getButton(bb1_begin_climb_button_id);
     output_signals.retract_hooks = button_box_1_joystick->getButton(bb1_retract_hooks_button_id);
     output_signals.forced_reset_retract_hooks = false;  //DO NOT SET THIS SIGNAL HERE TO ANYTHING OTHER THAN FALSE
+    output_signals.angle_increase_offset = button_box_1_joystick->getButton(bb1_increase_angle_button_id);
+    output_signals.angle_decrease_offset = button_box_1_joystick->getButton(bb1_decrease_angle_button_id);  //DO NOT SET THIS SIGNAL HERE TO ANYTHING OTHER THAN FALSE
 
     static ros::Publisher signal_publisher = node->advertise<hmi_agent_node::HMI_Signals>("/HMISignals", 10);
 
@@ -224,6 +226,8 @@ int main(int argc, char **argv)
     required_params_found &= n.getParam(CKSP(bb1_increase_rpm_offset_button_id), bb1_increase_rpm_offset_button_id);
     required_params_found &= n.getParam(CKSP(bb1_decrease_rpm_offset_button_id), bb1_decrease_rpm_offset_button_id);
     required_params_found &= n.getParam(CKSP(bb1_stop_climber_button_id), bb1_stop_climber_button_id);
+    required_params_found &= n.getParam(CKSP(bb1_increase_angle_button_id), bb1_increase_angle_button_id);
+    required_params_found &= n.getParam(CKSP(bb1_decrease_angle_button_id), bb1_decrease_angle_button_id);
 
     //ButtonBox2
     required_params_found &= n.getParam(CKSP(bb2_set_near_button_id), bb2_set_near_button_id);

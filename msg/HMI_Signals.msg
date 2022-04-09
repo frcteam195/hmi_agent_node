@@ -20,3 +20,5 @@ bool forced_reset_retract_hooks
 bool allow_shoot
 bool increase_offset
 bool decrease_offset
+bool angle_increase_offset
+bool angle_decrease_offset
