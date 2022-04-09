@@ -31,7 +31,7 @@ int arm_manual_outtake_front_button_id;
 int arm_manual_outtake_back_button_id;
 
 //ButtonBox1
-int bb1_allow_shoot_button_id;
+// int bb1_allow_shoot_button_id;
 int bb1_deploy_hooks_button_id;
 int bb1_begin_climb_button_id;
 int bb1_retract_hooks_button_id;
