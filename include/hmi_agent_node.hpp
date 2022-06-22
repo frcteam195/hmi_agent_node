@@ -29,6 +29,10 @@ int arm_manual_intake_button_id;
 int arm_retract_intake_button_id;
 int arm_manual_outtake_front_button_id;
 int arm_manual_outtake_back_button_id;
+int arm_hood_up_pov_angle;
+int arm_hood_down_pov_angle;
+int arm_intake_rollers_trigger_id;
+int arm_retract_intake_trigger_id;
 
 //ButtonBox1
 // int bb1_allow_shoot_button_id;
