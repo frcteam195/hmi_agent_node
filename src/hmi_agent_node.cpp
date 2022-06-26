@@ -8,7 +8,6 @@
 #include <rio_control_node/Joystick_Status.h>
 #include <rio_control_node/Robot_Status.h>
 #include <hmi_agent_node/HMI_Signals.h>
-#include <action_helper/action_helper.hpp>
 #include <ck_utilities/Joystick.hpp>
 #include "ck_utilities/CKMath.hpp"
 #include <atomic>
@@ -16,7 +15,6 @@
 #define RATE (100)
 
 ros::NodeHandle *node;
-//ActionHelper *action_helper;
 Joystick *drive_joystick;
 Joystick *arm_joystick;
 Joystick *button_box_1_joystick;
@@ -262,7 +260,6 @@ int main(int argc, char **argv)
     arm_joystick = new Joystick(1);
     button_box_1_joystick = new Joystick(2);
     button_box_2_joystick = new Joystick(3);
-    //action_helper = new ActionHelper(node);
 
     ros::spin();
 
