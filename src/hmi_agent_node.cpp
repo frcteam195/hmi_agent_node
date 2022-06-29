@@ -141,7 +141,8 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
     int invert_axis_turn = drive_turn_axis_inverted ? -1 : 1;
     output_signals.drivetrain_fwd_back = invert_axis_fwd_back * drive_joystick->getFilteredAxis(drive_fwd_back_axis_id, drive_axis_deadband);
     double turn = invert_axis_turn * drive_joystick->getFilteredAxis(drive_turn_axis_id, drive_axis_deadband);
-    output_signals.drivetrain_left_right = 0.4 * turn;
+    output_signals.drivetrain_left_right = 0.60 * turn;
+
     // if (drive_joystick->getAxisActuated(3, 0.35))
     // {
     //     output_signals.drivetrain_left_right *= 0.4;
