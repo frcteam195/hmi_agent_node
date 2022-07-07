@@ -19,6 +19,7 @@ double arm_axis_deadband;
 int arm_pov_id;
 int arm_manual_outtake_back_pov_angle;
 int arm_manual_outtake_front_pov_angle;
+int arm_shoot_3ball_pov_angle;
 int arm_turret_manual_button_id;
 int arm_hood_up_button_id;
 int arm_hood_down_button_id;

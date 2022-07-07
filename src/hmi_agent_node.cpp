@@ -55,7 +55,6 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
     static double turret_hood_degrees = 0;
     static double turret_speed_rpm = 0;
     hmi_agent_node::HMI_Signals output_signals;
-    memset(&output_signals, 0, sizeof(hmi_agent_node::HMI_Signals));
 
     if (button_box_2_joystick->getButton(bb2_set_near_button_id)) //near
     {
@@ -114,11 +113,11 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
     }
 
 
-    if (arm_joystick->getButton(arm_hood_up_button_id) | (arm_joystick->getPOV(arm_pov_id) == arm_hood_up_pov_angle)) //hood up
+    if (arm_joystick->getButton(arm_hood_up_button_id) || arm_joystick->getPOV(arm_pov_id) == arm_hood_up_pov_angle) //hood up
     {
         turret_hood_degrees -= 0.2;
     }
-    if (arm_joystick->getButton(arm_hood_down_button_id) | (arm_joystick->getPOV(arm_pov_id) == arm_hood_down_pov_angle)) //hood down
+    if (arm_joystick->getButton(arm_hood_down_button_id)|| arm_joystick->getPOV(arm_pov_id) == arm_hood_down_pov_angle) //hood down
     {
         turret_hood_degrees += 0.2;
     }
@@ -154,13 +153,14 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
     output_signals.turret_aim_degrees = turret_aim_degrees;
     output_signals.turret_hood_degrees = turret_hood_degrees;
     output_signals.turret_speed_rpm = turret_speed_rpm;
-    output_signals.intake_rollers = arm_joystick->getAxisActuated(arm_intake_rollers_trigger_id, 0.45);
-    output_signals.retract_intake = output_signals.intake_rollers | arm_joystick->getAxisActuated(arm_retract_intake_trigger_id, 0.35);
-    //output_signals.manual_intake = button_box_2_joystick->getButton(bb2_manual_intake_button_id) | arm_joystick->getButton(arm_manual_intake_button_id);
-    output_signals.manual_outake_back = arm_joystick->getButton(arm_manual_outtake_back_button_id);
-    output_signals.manual_outake_front = arm_joystick->getButton(arm_manual_outtake_front_button_id);
+    output_signals.intake_rollers = button_box_2_joystick->getButton(bb2_intake_rollers_button_id) | drive_joystick->getButton(drive_intake_rollers_button_id) | arm_joystick->getButton(arm_intake_rollers_button_id) | arm_joystick->getAxisActuated(arm_intake_rollers_trigger_id, 0.45);
+    output_signals.retract_intake = button_box_2_joystick->getButton(bb2_retract_intakes_button_id) | output_signals.intake_rollers | arm_joystick->getButton(arm_retract_intake_button_id) | arm_joystick->getAxisActuated(arm_retract_intake_trigger_id, 0.45) | (arm_joystick->getPOV(arm_pov_id) == arm_shoot_3ball_pov_angle);
+    output_signals.manual_intake = button_box_2_joystick->getButton(bb2_manual_intake_button_id) | arm_joystick->getButton(arm_manual_intake_button_id);
+    output_signals.manual_outake_back = button_box_2_joystick->getButton(bb2_manual_outtake_back_button_id) | (arm_joystick->getPOV(arm_pov_id) == arm_manual_outtake_back_pov_angle) | arm_joystick->getButton(arm_manual_outtake_back_button_id);
+    output_signals.manual_outake_front = button_box_2_joystick->getButton(bb2_manual_outtake_front_button_id) | (arm_joystick->getPOV(arm_pov_id) == arm_manual_outtake_front_pov_angle) | arm_joystick->getButton(arm_manual_outtake_front_button_id);
     output_signals.stop_climber = button_box_1_joystick->getButton(bb1_stop_climber_button_id);
-    output_signals.allow_shoot = arm_joystick->getButton(arm_allow_shoot_button_id) | drive_joystick->getButton(drive_allow_shoot_button_id);
+    output_signals.allow_shoot = arm_joystick->getButton(arm_allow_shoot_button_id) | drive_joystick->getButton(drive_allow_shoot_button_id)| (arm_joystick->getPOV(arm_pov_id) == arm_shoot_3ball_pov_angle);
+    output_signals.shoot_3ball = (arm_joystick->getPOV(arm_pov_id) == arm_shoot_3ball_pov_angle);
     output_signals.increase_offset = button_box_1_joystick->getButton(bb1_increase_rpm_offset_button_id) | arm_joystick->getButton(arm_rpm_up_button_id);
     output_signals.decrease_offset = button_box_1_joystick->getButton(bb1_decrease_rpm_offset_button_id) | arm_joystick->getButton(arm_rpm_down_button_id);
     output_signals.deploy_hooks = button_box_1_joystick->getButton(bb1_deploy_hooks_button_id);
@@ -225,6 +225,7 @@ int main(int argc, char **argv)
     required_params_found &= n.getParam(CKSP(arm_intake_rollers_trigger_id), arm_intake_rollers_trigger_id);
     required_params_found &= n.getParam(CKSP(arm_retract_intake_trigger_id), arm_retract_intake_trigger_id);
     required_params_found &= n.getParam(CKSP(arm_allow_shoot_button_id), arm_allow_shoot_button_id);
+    required_params_found &= n.getParam(CKSP(arm_shoot_3ball_pov_angle), arm_shoot_3ball_pov_angle);
 
     //ButtonBox1
     // required_params_found &= n.getParam(CKSP(bb1_allow_shoot_button_id), bb1_allow_shoot_button_id);
