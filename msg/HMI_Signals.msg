@@ -13,6 +13,7 @@ bool retract_intake
 bool manual_intake
 bool manual_outake_back
 bool manual_outake_front
+bool intake_do_not_eject
 bool stop_climber
 bool deploy_hooks
 bool begin_climb

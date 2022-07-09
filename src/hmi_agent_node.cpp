@@ -170,6 +170,8 @@ void joystick_status_callback(const rio_control_node::Joystick_Status &joystick_
     output_signals.angle_increase_offset = button_box_1_joystick->getButton(bb1_increase_angle_button_id) | (arm_joystick->getPOV(arm_pov_id) == arm_hood_up_pov_angle);
     output_signals.angle_decrease_offset = button_box_1_joystick->getButton(bb1_decrease_angle_button_id) | (arm_joystick->getPOV(arm_pov_id) == arm_hood_down_pov_angle);
     output_signals.climber_retry_last_stage = button_box_1_joystick->getButton(bb1_retry_last_stage_climber_button_id); //DO NOT SET THIS SIGNAL HERE TO ANYTHING OTHER THAN FALSE
+    output_signals.intake_do_not_eject = false;
+
 
     static ros::Publisher signal_publisher = node->advertise<hmi_agent_node::HMI_Signals>("/HMISignals", 10);
 
